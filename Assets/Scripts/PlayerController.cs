@@ -12,10 +12,15 @@ public class PlayerController : MonoBehaviour
     private HitCheck bottom;
     private HitCheck left;
 
-    GameObject mainCamObj;
+    public GameObject mainCamObj;
 
     public float speed = 0.1f;
     public int direction = 1;
+    public int Direction { set{
+                                direction = value;
+                                animator.SetInteger("Direction", direction);
+                               }
+                         }
 
     public bool poseFlag = false;
 
@@ -24,16 +29,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //カメラ追従用
-        mainCamObj = Camera.main.gameObject;
-        setCameraPos();
-
         //アニメーション用
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
 
         animator.SetInteger("Direction", direction);
-
 
         top = transform.Find("TopBox").GetComponent<HitCheck>();
         right = transform.Find("RightBox").GetComponent<HitCheck>();
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         setCameraPos();
     }
 
-    private void setCameraPos()
+    public void setCameraPos()
     {
         Vector3 playerPos = transform.position;
         Vector3 cameraPos = mainCamObj.transform.position;
@@ -111,6 +111,11 @@ public class PlayerController : MonoBehaviour
 
     private void checkObject(GameObject target)
     {
+        Debug.Log(target);
+        if (target == null)
+        {
+            return;
+        }
         // PCの場合
         PCController pc = target.GetComponent<PCController>();
         if(pc != null)
@@ -124,6 +129,38 @@ public class PlayerController : MonoBehaviour
         if (mes != null)
         {
             mes.openMassage();
+            return;
+        }
+
+        // 落ちているものの場合
+        MassgeFlagObjController kira = target.GetComponent<MassgeFlagObjController>();
+        if (kira != null)
+        {
+            kira.openMassage();
+            return;
+        }
+
+        // 落ちているものの場合
+        ContainerContorller hako = target.GetComponent<ContainerContorller>();
+        if (hako != null)
+        {
+            hako.openMassage();
+            return;
+        }
+
+        // 消せるものの場合
+        RemovableObjectController remObj = target.GetComponent<RemovableObjectController>();
+        if (remObj != null)
+        {
+            remObj.openMassage();
+            return;
+        }
+
+        // ArrayObjext用
+        ArrayObjectController aryObj = target.GetComponent<ArrayObjectController>();
+        if (aryObj != null)
+        {
+            aryObj.openMassage();
             return;
         }
     }

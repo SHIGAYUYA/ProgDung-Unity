@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class HitCheck : MonoBehaviour
 {
-    private GameObject target;
+    private List<GameObject> targets;
 
     public GameObject Target
     {
-        get { return target; }
+        get {
+            deleatNull();
+            if (targets.Count == 0)
+            {
+                return null;
+            }
+            return targets[0]; }
     }
 
     void Start()
     {
-        target = null;
+        targets = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -26,8 +32,8 @@ public class HitCheck : MonoBehaviour
     {
         if (!collision.gameObject.name.Contains("Tile"))
         {
-            target = collision.gameObject;
-            //Debug.Log(target);
+            targets.Add(collision.gameObject);
+            Debug.Log(collision.gameObject);
         }
     }
 
@@ -36,10 +42,19 @@ public class HitCheck : MonoBehaviour
     {
         if (!collision.gameObject.name.Contains("Tile"))
         {
-            target = null;
-            //Debug.Log(target);
+            targets.Remove(collision.gameObject);
+            Debug.Log(collision.gameObject);
         }
     }
 
-    
+    private void deleatNull()
+    {
+        foreach (GameObject item in targets.ToArray())
+        {
+            if (item == null)
+            {
+                targets.Remove(item);
+            }
+        }
+    }
 }

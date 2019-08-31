@@ -19,11 +19,13 @@ public class MessageController : MonoBehaviour
     private int update_interval = 0;
 
     private PlayerController player;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("player").GetComponent<PlayerController>();
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
+
 
         var message_lines_list = new List<string>();
         string line = "";
@@ -43,7 +45,7 @@ public class MessageController : MonoBehaviour
                 line = "";
             }
         }
-        Debug.Log(line);
+        //Debug.Log(line);
         message_lines_list.Add(line);
 
         message_lines = message_lines_list.ToArray();
@@ -54,7 +56,7 @@ public class MessageController : MonoBehaviour
     {
         if (massage_flag)
         {
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.anyKey && !Input.GetKey("c"))
             {
                 update_interval++;
             }
@@ -87,6 +89,7 @@ public class MessageController : MonoBehaviour
             Debug.Log(current_line);
             for(int i = head; i <= current_line; i++)
             {
+                Debug.Log(message_text);
                 message_text.text += message_lines[i];
             }            
         }
@@ -94,7 +97,7 @@ public class MessageController : MonoBehaviour
         
     }
 
-    public void openMassage()
+    public virtual void openMassage()
     {
         massage_flag = true;
         current_line = 0;

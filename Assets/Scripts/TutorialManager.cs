@@ -8,7 +8,7 @@ public class TutorialManager : MonoBehaviour
 
     private string script = "def run(tori, robe)\n"+
                             "	#この下の行にソースを入力\n"+
-                            "	p tori\n" +
+                            "	\n" +
                             "end";
     private string method_name = "run";
     private string augments_name = "tori, robe";
@@ -18,6 +18,18 @@ public class TutorialManager : MonoBehaviour
 
 
     private ProgramToolsController programTools;
+
+    private PlayerController player;
+
+    private void Awake()
+    {
+        //GameObject player_pre = (GameObject)Resources.Load("Maps/Player/Player");
+
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
+        //カメラ追従用
+        player.mainCamObj = Camera.main.gameObject;
+        player.setCameraPos();
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -30,7 +30,7 @@ public class ProgramToolsController : MonoBehaviour
     {
         rubyManager = GameObject.Find("RubyManager").GetComponent<RubyManager>();
 
-        player = GameObject.Find("player").GetComponent<PlayerController>();
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
         scriptEditor = GameObject.Find("ScriptEditor").gameObject.GetComponent<ScriptEditorController>();
 
         logWindow = GameObject.Find("Content");
@@ -64,6 +64,12 @@ public class ProgramToolsController : MonoBehaviour
     {
         _script = scriptEditor.Script;
         rubyManager.runRuby(logWindow, _script, _method_name, _augments_name, _limit, _argments);
+    }
+
+    public string runScriptExtrn()
+    {
+        _script = scriptEditor.Script;
+        return rubyManager.runRuby(logWindow, _script, _method_name, _augments_name, _limit, _argments);
     }
 
     public void openEditor()

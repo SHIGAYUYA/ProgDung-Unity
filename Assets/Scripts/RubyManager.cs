@@ -31,7 +31,7 @@ public class RubyManager : MonoBehaviour
     
     private GameObject textPrefab;
 
-    public void runRuby(GameObject logWindow, string script, string method_name, string augments_name, string limit, object[] argments)
+    public string runRuby(GameObject logWindow, string script, string method_name, string augments_name, string limit, object[] argments)
     {
         // Rubyスクリプトを実行
         var runtime = Ruby.CreateRuntime();
@@ -89,7 +89,7 @@ public class RubyManager : MonoBehaviour
 
         strReader = new StringReader(error_log);
 
-        Debug.Log(error_log);
+        //Debug.Log(error_log);
 
         while ((line = strReader.ReadLine()) != null)
         {
@@ -99,6 +99,8 @@ public class RubyManager : MonoBehaviour
             _text.text = line;
             _text.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
         }
+
+        return output_log;
     }
 
     public string setTimeout(string method_name, string augments_name, string limit)
